@@ -1,0 +1,24 @@
+
+<!DOCTYPE html><html lang="ar"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Currency Converter</title>
+<style>body{font-family:Arial;max-width:700px;margin:30px auto;padding:20px;background:#d17d7d}select,input,button{padding:10px;margin:8px;width:100%}#r{font-size:20px;font-weight:bold}</style></head>
+<body><h2>🌍 محول العملات</h2>
+<input id="amount" type="number" placeholder="أدخل المبلغ">
+<select id="from"></select>
+<select id="to"></select>
+<button onclick="convert()">تحويل</button>
+<div id="r"></div>
+<script>
+const api="https://open.er-api.com/v6/latest/USD";
+const list={
+USD:"🇺🇸 الدولار",EGP:"🇪🇬 الجنيه المصري",EUR:"🇪🇺 اليورو",GBP:"🇬🇧 الإسترليني",SAR:"🇸🇦 الريال السعودي",AED:"🇦🇪 الدرهم الإماراتي",KWD:"🇰🇼 الدينار الكويتي",QAR:"🇶🇦 الريال القطري",BHD:"🇧🇭 الدينار البحريني",OMR:"🇴🇲 الريال العماني",JOD:"🇯🇴 الدينار الأردني",TRY:"🇹🇷 الليرة التركية",JPY:"🇯🇵 الين الياباني",CNY:"🇨🇳 اليوان الصيني",INR:"🇮🇳 الروبية الهندية",CAD:"🇨🇦 الدولار الكندي",AUD:"🇦🇺 الدولار الأسترالي",CHF:"🇨🇭 الفرنك السويسري",RUB:"🇷🇺 الروبل الروسي",BRL:"🇧🇷 الريال البرازيلي",ZAR:"🇿🇦 الراند"};
+const f=document.getElementById("from"),t=document.getElementById("to");
+for(let c in list){f.add(new Option(list[c]+" ("+c+")",c));t.add(new Option(list[c]+" ("+c+")",c));}
+f.value="USD";t.value="EGP";
+let rates={};
+fetch(api).then(x=>x.json()).then(d=>rates=d.rates);
+function convert(){
+let a=parseFloat(amount.value);if(!a||!rates[from.value]||!rates[to.value])return;
+let usd=a/rates[from.value];let res=usd*rates[to.value];
+r.innerText=a+" "+from.value+" = "+res.toFixed(2)+" "+to.value;
+}
+</script></body></html>
